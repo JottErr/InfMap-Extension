@@ -1,0 +1,12 @@
+[configuration]
+
+entry_symbol = "infmap_library_init"
+compatibility_minimum = "4.7"
+reloadable = false
+
+[libraries]
+; Relative paths ensure that our GDExtension can be placed anywhere in the project directory.
+linux.x86_64.single.debug = "./linux/libinfmap.linux.template_debug.x86_64.so"
+linux.x86_64.double.debug = "./linux/libinfmap.linux.template_debug.x86_64.double.so"
+linux.x86_64.single.release = "./linux/libinfmap.linux.template_release.x86_64.so"
+linux.x86_64.double.release = "./linux/libinfmap.linux.template_release.x86_64.double.so"
