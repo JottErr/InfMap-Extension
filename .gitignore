@@ -6,7 +6,7 @@ legacy/
 
 # Ignore library files but not the gdextension file
 /bin/**
-!project/bin/*.gdextension
+!InfMapTest/bin/*.gdextension
 
 # Ignore scons database
 .sconsign*.dblite

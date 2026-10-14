@@ -6,7 +6,7 @@ from methods import print_error
 
 
 libname = "infmap"
-projectdir = "project"
+projectdir = "InfMapTest"
 
 localEnv = Environment(tools=["default"], PLATFORM="")
 
