@@ -1,5 +1,6 @@
 #pragma once
 
+#include <godot_cpp/classes/curve.hpp>
 #include <godot_cpp/classes/image.hpp>
 #include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/variant/packed_float32_array.hpp>
@@ -15,6 +16,10 @@ public:
 	// at 65536 or below, so size.x * size.y never overflows an int.
 	static constexpr int MIN_SIZE = 1;
 	static constexpr int MAX_SIZE = 256;
+
+	// Largest radius radiate accepts, counted in cells. It caps the falloff table
+	// at MAX_RADIUS * MAX_RADIUS + 1 entries.
+	static constexpr int MAX_RADIUS = MAX_SIZE;
 
 private:
 	// World units per cell. Converts a world position into a cell id.
@@ -55,10 +60,20 @@ public:
 	void set_data(const godot::PackedFloat32Array &p_data);
 	godot::PackedFloat32Array get_data() const { return data; }
 
+	// Sets every cell to p_value. Keeps the current size.
+	void reset_data(float p_value = 0.0f);
+
 	bool is_in_bounds(const godot::Vector2i &p_id) const;
 
 	void set_cell_value(const godot::Vector2i &p_id, float p_value);
 	float get_cell_value(const godot::Vector2i &p_id) const;
+
+	// Adds a circle of influence to every cell within p_radius of p_center.
+	// p_curve maps the distance to the center onto a value: the curve's min
+	// domain is the center, its max domain is the edge. The result is scaled by
+	// p_magnitude, so a negative magnitude removes what an earlier call added.
+	// Cells outside the map are skipped, so p_center may lie off the map.
+	void radiate_value_at_position(const godot::Vector2i &p_center, int p_radius, const godot::Ref<godot::Curve> &p_curve, float p_magnitude = 1.0f);
 
 	// Cell values as a size.x by size.y image, one cell per pixel. FORMAT_RF is
 	// a single 32 bit float per pixel in row-major order, which is the layout

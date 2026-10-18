@@ -3,6 +3,10 @@
 [ext_resource type="Script" uid="uid://de67n4iu2wgsq" path="res://demos/vis_demo/vis_demo.gd" id="1_kkn55"]
 [ext_resource type="Script" uid="uid://e2vg5d8cgnp1" path="res://visualisation/influence_map_view_3d.gd" id="2_d02ej"]
 
+[sub_resource type="Curve" id="Curve_7qlwp"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
 shading_mode = 0
 albedo_color = Color(0.12, 0.13, 0.16, 1)
@@ -12,6 +16,7 @@ size = Vector2(32, 32)
 
 [node name="GroundDemo" type="Node3D" unique_id=1965459741]
 script = ExtResource("1_kkn55")
+falloff = SubResource("Curve_7qlwp")
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=1030771504]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 16)
