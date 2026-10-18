@@ -1,5 +1,6 @@
 #pragma once
 
+#include <godot_cpp/classes/image.hpp>
 #include <godot_cpp/classes/resource.hpp>
 #include <godot_cpp/variant/packed_float32_array.hpp>
 #include <godot_cpp/variant/vector2i.hpp>
@@ -58,6 +59,16 @@ public:
 
 	void set_cell_value(const godot::Vector2i &p_id, float p_value);
 	float get_cell_value(const godot::Vector2i &p_id) const;
+
+	// Cell values as a size.x by size.y image, one cell per pixel. FORMAT_RF is
+	// a single 32 bit float per pixel in row-major order, which is the layout
+	// data already has, so the conversion is one memcpy and no per-cell work.
+	godot::Ref<godot::Image> to_image() const;
+
+	// Overwrites an existing image instead of allocating a new one. Pair it with
+	// ImageTexture::update to refresh a texture in place, which keeps the GPU
+	// side allocation across frames.
+	void update_image(const godot::Ref<godot::Image> &p_image) const;
 };
 
 } // namespace infmap

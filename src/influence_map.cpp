@@ -55,6 +55,18 @@ float InfluenceMap::get_cell_value(const Vector2i &p_id) const {
 	return data[cell_index(p_id)];
 }
 
+Ref<Image> InfluenceMap::to_image() const {
+	// The data invariant guarantees size.x * size.y values, which is exactly the
+	// pixel count FORMAT_RF expects, so this cannot fail on a valid map.
+	return Image::create_from_data(size.x, size.y, false, Image::FORMAT_RF, data.to_byte_array());
+}
+
+void InfluenceMap::update_image(const Ref<Image> &p_image) const {
+	ERR_FAIL_COND_MSG(p_image.is_null(), "InfluenceMap cannot write cell values into a null image.");
+
+	p_image->set_data(size.x, size.y, false, Image::FORMAT_RF, data.to_byte_array());
+}
+
 void InfluenceMap::_bind_methods() {
 	BIND_CONSTANT(MIN_SIZE);
 	BIND_CONSTANT(MAX_SIZE);
@@ -69,6 +81,9 @@ void InfluenceMap::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("is_in_bounds", "id"), &InfluenceMap::is_in_bounds);
 	ClassDB::bind_method(D_METHOD("set_cell_value", "id", "value"), &InfluenceMap::set_cell_value);
 	ClassDB::bind_method(D_METHOD("get_cell_value", "id"), &InfluenceMap::get_cell_value);
+
+	ClassDB::bind_method(D_METHOD("to_image"), &InfluenceMap::to_image);
+	ClassDB::bind_method(D_METHOD("update_image", "image"), &InfluenceMap::update_image);
 
 	// Property names must match the bound setter and getter above. These strings
 	// are resolved at runtime, so a typo here fails when Godot loads the extension.
