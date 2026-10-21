@@ -99,6 +99,39 @@ void InfluenceMap::radiate_value_at_position(const Vector2i &p_center, int p_rad
 	}
 }
 
+void InfluenceMap::add_map(const Ref<InfluenceMap> &p_other, const Vector2i &p_center, float p_magnitude) {
+	ERR_FAIL_COND_MSG(p_other.is_null(), "InfluenceMap cannot add a null map.");
+	// Reading and writing the same cells in one pass would feed values already
+	// added back into later cells.
+	ERR_FAIL_COND_MSG(p_other.ptr() == this, "InfluenceMap cannot add itself.");
+
+	// Where the other map's top left cell lands in this map.
+	const Vector2i other_origin = p_center - p_other->size / 2;
+
+	// The overlap of both maps, in this map's cells. end is exclusive.
+	const Vector2i start = other_origin.max(Vector2i(0, 0));
+	const Vector2i end = (other_origin + p_other->size).min(size);
+
+	// No overlap. Return before building row pointers, which would point
+	// outside the arrays for a map that lies entirely beside this one.
+	if (start.x >= end.x || start.y >= end.y) {
+		return;
+	}
+	const int width = end.x - start.x;
+
+	float *cells = data.ptrw();
+	const float *other_cells = p_other->data.ptr();
+	for (int y = start.y; y < end.y; y++) {
+		// Both rows start at the first overlapping cell, so one index walks both.
+		const Vector2i row_start(start.x, y);
+		float *row = cells + cell_index(row_start);
+		const float *other_row = other_cells + p_other->cell_index(row_start - other_origin);
+		for (int i = 0; i < width; i++) {
+			row[i] += other_row[i] * p_magnitude;
+		}
+	}
+}
+
 Ref<Image> InfluenceMap::to_image() const {
 	// The data invariant guarantees size.x * size.y values, which is exactly the
 	// pixel count FORMAT_RF expects, so this cannot fail on a valid map.
@@ -129,6 +162,7 @@ void InfluenceMap::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("get_cell_value", "id"), &InfluenceMap::get_cell_value);
 
 	ClassDB::bind_method(D_METHOD("radiate_value_at_position", "center", "radius", "curve", "magnitude"), &InfluenceMap::radiate_value_at_position, DEFVAL(1.0f));
+	ClassDB::bind_method(D_METHOD("add_map", "other", "center", "magnitude"), &InfluenceMap::add_map, DEFVAL(1.0f));
 
 	ClassDB::bind_method(D_METHOD("to_image"), &InfluenceMap::to_image);
 	ClassDB::bind_method(D_METHOD("update_image", "image"), &InfluenceMap::update_image);

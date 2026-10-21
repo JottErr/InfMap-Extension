@@ -75,6 +75,12 @@ public:
 	// Cells outside the map are skipped, so p_center may lie off the map.
 	void radiate_value_at_position(const godot::Vector2i &p_center, int p_radius, const godot::Ref<godot::Curve> &p_curve, float p_magnitude = 1.0f);
 
+	// Adds p_other's cells scaled by p_magnitude, with p_other's middle cell
+	// (its size / 2) placed on p_center. Cells that fall outside this map are
+	// skipped. Meant for stamping a small template many times instead of
+	// radiating the same circle again for every source.
+	void add_map(const godot::Ref<InfluenceMap> &p_other, const godot::Vector2i &p_center, float p_magnitude = 1.0f);
+
 	// Cell values as a size.x by size.y image, one cell per pixel. FORMAT_RF is
 	// a single 32 bit float per pixel in row-major order, which is the layout
 	// data already has, so the conversion is one memcpy and no per-cell work.

@@ -16,6 +16,7 @@ const MAGNITUDE: float = 0.2
 @onready var _view := $InfluenceMapView as InfluenceMapView3D
 
 var _map: InfluenceMap = InfluenceMap.new()
+var _template: InfluenceMap = InfluenceMap.new()
 var _time: float = 0.0
 
 
@@ -23,7 +24,17 @@ func _ready() -> void:
 	_map.set_cell_size(CELL_SIZE)
 	_map.set_size(CELLS)
 
+	_build_template()
+	# Rebuild when the curve is edited in the inspector while the demo runs.
+	falloff.changed.connect(_build_template)
+
 	_view.influence_map = _map
+
+
+func _build_template() -> void:
+	var side: int = SOURCE_RADIUS * 2 + 1
+	_template.set_size(Vector2i(side, side))
+	_template.radiate_value_at_position(Vector2i(SOURCE_RADIUS, SOURCE_RADIUS), SOURCE_RADIUS, falloff)
 
 
 func _process(delta: float) -> void:
@@ -35,4 +46,5 @@ func _process(delta: float) -> void:
 		var phase: float = _time * 0.1 + TAU * float(i) / float(SOURCE_COUNT) * 21
 		var orbit: Vector2 = Vector2(cos(phase), sin(phase * 1.3)) * 0.4
 		var center := Vector2i((Vector2(CELLS) * 0.5) + orbit * Vector2(CELLS))
-		_map.radiate_value_at_position(center, SOURCE_RADIUS, falloff, MAGNITUDE)
+		#_map.radiate_value_at_position(center, SOURCE_RADIUS, falloff, MAGNITUDE)
+		_map.add_map(_template, center, MAGNITUDE)
