@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://cjae2a0s5nkuf"]
+
+[ext_resource type="PackedScene" uid="uid://cqxeijs3yyql7" path="res://entity/entity.tscn" id="1_entity"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ground"]
+shading_mode = 0
+albedo_color = Color(0.12, 0.13, 0.16, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
+size = Vector2(128, 128)
+
+[node name="EntityDemo" type="Node3D" unique_id=100947199]
+
+[node name="Ground" type="MeshInstance3D" parent="." unique_id=465673134]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 64)
+material_override = SubResource("StandardMaterial3D_ground")
+mesh = SubResource("PlaneMesh_ground")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=177063791]
+transform = Transform3D(0.86601907, -0.40958056, 0.28680095, 0, 0.57358927, 0.81914306, -0.500011, -0.7093935, 0.49673924, 16, 10, 16)
+
+[node name="Player" parent="." unique_id=1997818448 instance=ExtResource("1_entity")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 62.331, 0, 61.11486)
+
+[node name="Chaser" parent="." unique_id=1474785639 instance=ExtResource("1_entity")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.331, 0, 61.11486)
+control_mode = 1
+speed = 1.0
+
+[node name="Chaser2" parent="." unique_id=1630353923 instance=ExtResource("1_entity")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.331, 0, 64.307236)
+control_mode = 1
+speed = 1.0
+
+[node name="Chaser3" parent="." unique_id=158810626 instance=ExtResource("1_entity")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.331, 0, 57.332504)
+control_mode = 1
+speed = 1.0
+
+[node name="Chaser4" parent="." unique_id=702387637 instance=ExtResource("1_entity")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.576706, 0, 61.11486)
+control_mode = 1
+speed = 1.0
+
+[node name="Chaser5" parent="." unique_id=1447256234 instance=ExtResource("1_entity")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.576706, 0, 64.307236)
+control_mode = 1
+speed = 1.0
+
+[node name="Chaser6" parent="." unique_id=14383998 instance=ExtResource("1_entity")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 73.576706, 0, 57.332504)
+control_mode = 1
+speed = 1.0
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1099316749]
+transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 64, 70, 107.475)
