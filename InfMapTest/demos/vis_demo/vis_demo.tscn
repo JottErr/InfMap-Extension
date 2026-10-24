@@ -12,14 +12,14 @@ shading_mode = 0
 albedo_color = Color(0.12, 0.13, 0.16, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ground"]
-size = Vector2(32, 32)
+size = Vector2(128, 128)
 
 [node name="GroundDemo" type="Node3D" unique_id=1965459741]
 script = ExtResource("1_kkn55")
 falloff = SubResource("Curve_7qlwp")
 
 [node name="Ground" type="MeshInstance3D" parent="." unique_id=1030771504]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, 16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 64, 0, 64)
 material_override = SubResource("StandardMaterial3D_ground")
 mesh = SubResource("PlaneMesh_ground")
 
@@ -28,5 +28,4 @@ script = ExtResource("2_d02ej")
 show_grid = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=1890466867]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, 0.7071067, 0, -0.7071067, 0.7071067, 16, 22, 42)
-fov = 43.3
+transform = Transform3D(1, 0, 0, 0, 0.34202015, 0.9396926, 0, -0.9396926, 0.34202015, 64, 70, 107.475)

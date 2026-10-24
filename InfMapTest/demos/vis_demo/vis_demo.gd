@@ -4,10 +4,10 @@
 ## radiates its falloff into it, so overlapping sources add up.
 extends Node3D
 
-const CELLS: Vector2i = Vector2i(64, 64)
+const CELLS: Vector2i = Vector2i(256, 256)
 const CELL_SIZE: float = 0.5
 const SOURCE_COUNT: int = 200
-const SOURCE_RADIUS: int = 6
+const SOURCE_RADIUS: int = 24
 const MAGNITUDE: float = 0.2
 
 ## Falloff from a source's center (x = 0) to its edge (x = 1).
